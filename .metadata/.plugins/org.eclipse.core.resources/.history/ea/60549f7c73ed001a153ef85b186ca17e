@@ -1,0 +1,15 @@
+package com.demo.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "customer")
+public class Customer {
+
+	private long id;
+    private String fname;
+    private String lname;
+    private int age;
+	
+}

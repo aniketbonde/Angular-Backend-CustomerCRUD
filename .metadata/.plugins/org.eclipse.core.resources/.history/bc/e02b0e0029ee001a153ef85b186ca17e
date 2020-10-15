@@ -1,0 +1,90 @@
+package com.demo.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.entity.Customer;
+import com.demo.exception.ResourceNotFoundException;
+import com.demo.repository.CustomerRepository;
+
+@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(path = "/api")
+public class CustomerController {
+
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+	@GetMapping(path = "/customers")
+	public List<Customer> getAllCustomer(){
+		return customerRepository.findAll();
+	}
+	
+	@GetMapping(path = "/customer/id/{id}")
+	public Optional<Customer> getCustomerById(@PathVariable("id") long id) {
+		return customerRepository.findById(id);
+	}
+	
+	@GetMapping(path = "/customer/firstName/{firstName}")
+	public List<Customer> getCustomerByFirstName(@PathVariable("firstName") String firstName){
+		firstName = "'"+firstName+"'";
+		System.out.println("Customer First Name...."+firstName);
+		List<Customer> customerByFirstName = customerRepository.getCustomerByFirstName(firstName);
+		System.out.println(customerByFirstName);
+		return customerByFirstName;
+	}
+	
+	@GetMapping(path = "/customer/lastName/{lastName}")
+	public List<Customer> getCustomerByLastName(@PathVariable("lastName") String lastName){
+		return customerRepository.getCustomerByLastName(lastName);
+	}
+	
+	@GetMapping(path = "/customer/age/{age}")
+	public List<Customer> getCustomerByAge(@PathVariable("age") int age){
+		return customerRepository.getCustomerByAge(age);
+	}
+	
+	@PostMapping(path = "/customers")
+	public Customer createCustomer(@RequestBody Customer customer) {
+		return customerRepository.save(customer);
+	}
+	
+	@PutMapping("/customers/update/{id}")
+	public ResponseEntity<Customer> updateEmployee(@PathVariable(value = "id") Long id,
+			@RequestBody Customer dest) throws ResourceNotFoundException {
+		Customer src = customerRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Customer not found for this id :: " + id));
+
+		src.setFname(dest.getFname());
+		src.setLname(dest.getLname());
+		src.setAge(dest.getAge());
+		return ResponseEntity.ok(customerRepository.save(src));
+	}
+
+	@DeleteMapping("/customers/delete/{id}")
+	public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long id)
+			throws ResourceNotFoundException {
+		Customer src = customerRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Customer not found for this id :: " + id));
+
+		customerRepository.delete(src);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
+	
+}
