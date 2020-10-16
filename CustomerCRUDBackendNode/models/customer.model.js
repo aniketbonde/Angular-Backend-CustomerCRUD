@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 var CustomerSchema = new mongoose.Schema({
-  id: {
+  _id: {
     type: Number,
   },
   firstName: {
@@ -18,4 +18,4 @@ var CustomerSchema = new mongoose.Schema({
   },
 });
 
-mongoose.model("Customer", CustomerSchema);
+module.exports = mongoose.model("Customer", CustomerSchema);

@@ -5,6 +5,7 @@ const path = require("path");
 const expressHandlebars = require("express-handlebars");
 const bodyParser = require("body-parser");
 const CustomerController = require("./controllers/customer.controller");
+const cors = require("cors");
 
 app.use(
   bodyParser.urlencoded({
@@ -12,7 +13,11 @@ app.use(
   })
 );
 
-app.use("/", CustomerController);
+app.use(bodyParser.json({ type: "application/*+json" }));
+
+app.use(cors());
+
+app.use("/api/", CustomerController);
 
 app.listen("3000", () => {
   console.log("Server Started..");
