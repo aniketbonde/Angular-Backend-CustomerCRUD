@@ -12,7 +12,7 @@ import { CustomerService } from 'src/app/service/customer.service';
 export class AddCustomerComponent implements OnInit {
   customer: Customer;
   myAddForm: FormGroup;
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'age'];
+  displayedColumns: string[] = ['_id', 'firstName', 'lastName', 'age'];
   dataSource: Observable<any>;
   constructor(private customerService: CustomerService) {}
 

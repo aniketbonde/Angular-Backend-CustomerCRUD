@@ -13,10 +13,10 @@ export class SearchCustomerComponent implements OnInit {
   dataSource: Observable<any>;
   selectedValue: any;
   searchedValue: any;
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'age'];
+  displayedColumns: string[] = ['_id', 'firstName', 'lastName', 'age'];
 
   searchOptions: any[] = [
-    { category: 'Id', actualValue: 'id', hint: 'Ok choice' },
+    { category: 'Id', actualValue: '_id', hint: 'Ok choice' },
     {
       category: 'First Name',
       actualValue: 'firstName',

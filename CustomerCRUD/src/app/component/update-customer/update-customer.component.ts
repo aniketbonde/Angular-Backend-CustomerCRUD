@@ -27,12 +27,12 @@ export class UpdateCustomerComponent implements OnInit {
   }
 
   onUpdateClick(): void {
-    this.customer.id = this.myUpdateForm.get('id').value;
+    this.customer._id = this.myUpdateForm.get('id').value;
     this.customer.firstName = this.myUpdateForm.get('firstName').value;
     this.customer.lastName = this.myUpdateForm.get('lastName').value;
     this.customer.age = this.myUpdateForm.get('age').value;
     this.customerService
-      .updateCustomer(this.customer.id, this.customer)
+      .updateCustomer(this.customer._id, this.customer)
       .subscribe((_response) => {
         if (_response) console.log = _response;
         this.dataSource = _response;

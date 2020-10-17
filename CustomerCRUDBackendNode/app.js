@@ -13,7 +13,7 @@ app.use(
   })
 );
 
-app.use(bodyParser.json({ type: "application/*+json" }));
+app.use(express.json());
 
 app.use(cors());
 
